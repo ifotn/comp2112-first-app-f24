@@ -9,6 +9,10 @@
       let x = 1;
       console.log(x);
 
+      // Display Header w/navbar + Footer
+      LoadHeader();
+      LoadFooter();
+
       // fetch & show contacts
       getContacts((data) => {
         let list = document.getElementById('contactList');
@@ -16,7 +20,9 @@
         // create a new listItem for each contact
         data.forEach(contact => {
           let listItem = document.createElement('li');
-          listItem.innerText = contact.Name;
+          //listItem.innerText = contact.Name;
+          listItem.innerHTML = `<a href="mailto:${contact.Email}">${contact.Name}</a>`;
+          listItem.className = "list-group-item";
           list.appendChild(listItem);
         });
       });        
@@ -48,3 +54,28 @@ let getContacts = (callback) => {
     callback(data);
   });
 }
+
+let LoadHeader = () => {
+  /* use jquery to read the HTML from the shared header file
+  then render this HTML content to the <header> element */
+  $.get('./views/shared/header.html', (htmlData) => {
+    $('header').html(htmlData);
+
+    // after navbar loads, add JS event handlers to each link to load the correct page
+    $('.navbar-brand, .nav-link').each(() => {
+      $('.navbar-brand, .nav-link').on('click', (event) => {
+        // cancel any default behaviour
+        event.preventDefault();
+
+        // change page title based on the id of the current link clicked
+        document.title = $(event.currentTarget).prop('id');
+      });
+    });
+  });
+}
+
+let LoadFooter = () => {
+  $.get('./views/shared/footer.html', (htmlData) => {
+    $('footer').html(htmlData);
+  });
+};

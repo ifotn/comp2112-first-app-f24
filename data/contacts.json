@@ -1,5 +1,6 @@
 [
     { "Id": 1, "Name": "Jesse Pinkman", "Email": "jesse@icancook.com"},
     { "Id": 2, "Name": "Walter White", "Email": "me@heisenberg.com"},
-    { "Id": 3, "Name": "Gustavo Fring", "Email": "ceo@polloshermanos.com"}
+    { "Id": 3, "Name": "Gustavo Fring", "Email": "ceo@polloshermanos.com"},
+    { "Id": 4, "Name": "Hank Schraeder", "Email": "hank@abqpd.com"}
 ]
