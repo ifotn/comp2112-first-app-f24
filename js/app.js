@@ -30,6 +30,17 @@
   
       // use browser's History API to track the sequence of pages
       history.pushState({}, "", `/${document.title}`);
+
+      // if current page is home, read contact data from local storage and display contact list
+      if (document.title == 'home') {
+        let apiData = localStorage.getItem('apiData');
+
+        if (apiData) {
+          let data = JSON.parse(apiData);
+
+          DisplayContacts(data);
+        }
+      }
     })
   };
   
@@ -53,17 +64,11 @@
 
       // fetch & show contacts
       getContacts((data) => {
-        let list = document.getElementById('contactList');
+        DisplayContacts(data);
 
-        // create a new listItem for each contact
-        data.forEach(contact => {
-          let listItem = document.createElement('li');
-          //listItem.innerText = contact.Name;
-          listItem.innerHTML = `<a href="mailto:${contact.Email}">${contact.Name}</a>`;
-          listItem.className = "list-group-item";
-          list.appendChild(listItem);
-        });
-      });        
+        // convert contact data json to string, then save to local storage
+        localStorage.setItem('apiData', JSON.stringify(data));
+      });  
   }; 
     
     // run the function
@@ -90,6 +95,19 @@ let getContacts = (callback) => {
   $.getJSON('./data/contacts.json', (data) => {
     console.log(data);
     callback(data);
+  });
+}
+
+let DisplayContacts = (data) => {
+  let list = document.getElementById('contactList');
+
+  // create a new listItem for each contact
+  data.forEach(contact => {
+    let listItem = document.createElement('li');
+    //listItem.innerText = contact.Name;
+    listItem.innerHTML = `<a href="mailto:${contact.Email}">${contact.Name}</a>`;
+    listItem.className = "list-group-item";
+    list.appendChild(listItem);
   });
 }
 
