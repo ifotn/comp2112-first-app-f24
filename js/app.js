@@ -41,6 +41,18 @@
           DisplayContacts(data);
         }
       }
+
+      if (document.title == 'about') {
+        let phone = localStorage.getItem('phone');
+
+        if (phone) {
+          document.getElementById('phone').innerText = phone;
+        }
+      }
+
+      // update click counter in footer.  default to zero if session item doesn't exist yet
+      let sessionCounter = sessionStorage.getItem('sessionCounter') ?? 0;
+      document.getElementById('sessionCounter').innerText = sessionCounter;
     })
   };
   
@@ -69,6 +81,9 @@
         // convert contact data json to string, then save to local storage
         localStorage.setItem('apiData', JSON.stringify(data));
       });  
+
+      // add phone to local Storage
+      localStorage.setItem('phone', '705-728-1968');
   }; 
     
     // run the function
@@ -85,6 +100,10 @@ let updateCounter = (() => {
     // every click can use the same counter var now
     counter++;
     document.getElementById('counter').innerHTML = counter;
+
+    // also store the count in session storage & update footer immediately
+    sessionStorage.setItem('sessionCounter', counter);
+    document.getElementById('sessionCounter').innerText = counter;
   }
   
 })();
